@@ -27,7 +27,7 @@ namespace NaiveBayes
         private static IEnumerable<WordPartOfSpeech> ReadTrainingSet(string filename)
         {
             return from word in XDocument.Load("training.xml")
-                .XPathSelectElements("/text/sentence/word") //cale
+                .XPathSelectElements("/text/sentence/word")
                 select new WordPartOfSpeech
                 {
                     Word = word.Attribute("form").Value,
