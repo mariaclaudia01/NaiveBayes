@@ -34,15 +34,17 @@ namespace NaiveBayes
 
             long totalOccurrences = Count(word);
 
-            //occurrences[word].Keys=partile de vb ale cuv word
-            return occurrences[word].Keys.Select(
+            return PartsOfSpeech(word).Select(
                 partOfSpeech => new PartOfSpeechProbability
                 {
                     PartOfSpeech = partOfSpeech,
                     Probability = (double) occurrences[word][partOfSpeech]/totalOccurrences
                 }).ToList();
         }
-
+        private IEnumerable<string> PartsOfSpeech(string word)
+        {
+            return occurrences[word].Keys;
+        }
         private long Count(string word)
         {
             return occurrences[word].Keys
