@@ -41,10 +41,12 @@ namespace NaiveBayes
                     Probability = (double) occurrences[word][partOfSpeech]/totalOccurrences
                 }).ToList();
         }
+
         private IEnumerable<string> PartsOfSpeech(string word)
         {
             return occurrences[word].Keys;
         }
+
         private long Count(string word)
         {
             return occurrences[word].Keys
