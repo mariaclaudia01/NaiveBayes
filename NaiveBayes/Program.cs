@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using Newtonsoft.Json;
 
 namespace NaiveBayes
 {
@@ -14,6 +16,7 @@ namespace NaiveBayes
         {
             var trainingSet = ReadTrainingSet("training.xml");
             basicGlobalProbability = new BasicGlobalProbability(trainingSet);
+            SaveProbabilities("output.json");
 
             Console.WriteLine("Press CTRL+C to stop the program");
             
@@ -26,13 +29,20 @@ namespace NaiveBayes
 
         private static IEnumerable<WordPartOfSpeech> ReadTrainingSet(string filename)
         {
-            return from word in XDocument.Load("training.xml")
+            return from word in XDocument.Load(filename)
                 .XPathSelectElements("/text/sentence/word")
                 select new WordPartOfSpeech
                 {
                     Word = word.Attribute("form").Value,
                     PartOfSpeech = word.Attribute("postag").Value
                 };
+        }
+
+        private static void SaveProbabilities(string filename)
+        {
+            var probabilities = basicGlobalProbability.AllProbabilities();
+            string output = JsonConvert.SerializeObject(probabilities, Formatting.Indented);
+            File.WriteAllText(filename, output);
         }
 
         private static void PrintMaxProbabilityPartOfSpeech(string word)

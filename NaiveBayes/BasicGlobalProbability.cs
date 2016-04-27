@@ -32,13 +32,11 @@ namespace NaiveBayes
             if (!occurrences.ContainsKey(word)) 
                 return new List<PartOfSpeechProbability>();
 
-            long totalOccurrences = Count(word);
-
             return PartsOfSpeech(word).Select(
                 partOfSpeech => new PartOfSpeechProbability
                 {
                     PartOfSpeech = partOfSpeech,
-                    Probability = (double) occurrences[word][partOfSpeech]/totalOccurrences
+                    Probability = Probability(word, partOfSpeech)
                 }).ToList();
         }
 
@@ -47,10 +45,24 @@ namespace NaiveBayes
             return occurrences[word].Keys;
         }
 
-        private long Count(string word)
+        private double Probability(string word, string partOfSpeech)
+        {
+            return (double)occurrences[word][partOfSpeech] / TotalOccurrences(word);
+        }
+
+        private long TotalOccurrences(string word)
         {
             return occurrences[word].Keys
                 .Sum(partOfSpeech => occurrences[word][partOfSpeech]);
+        }
+
+        public Dictionary<string, Dictionary<string, double>> AllProbabilities()
+        {
+            return occurrences.ToDictionary(
+                x => x.Key, 
+                x => x.Value.ToDictionary(
+                    y=>y.Key, 
+                    y=>Probability(x.Key, y.Key)));
         }
     }
 }
