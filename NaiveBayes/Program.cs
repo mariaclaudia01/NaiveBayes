@@ -34,7 +34,7 @@ namespace NaiveBayes
                 select new WordPartOfSpeech
                 {
                     Word = word.Attribute("form").Value,
-                    PartOfSpeech = word.Attribute("postag").Value
+                    PartOfSpeech = word.Attribute("postag").Value[0].ToString()
                 };
         }
 
