@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using Newtonsoft.Json;
@@ -29,13 +30,19 @@ namespace NaiveBayes
 
         private static IEnumerable<WordPartOfSpeech> ReadTrainingSet(string filename)
         {
-            return from word in XDocument.Load(filename)
+            return XDocument.Load(filename)
                 .XPathSelectElements("/text/sentence/word")
-                select new WordPartOfSpeech
+                .Select(word => new WordPartOfSpeech
                 {
                     Word = word.Attribute("lemma").Value.ToLower(),
                     PartOfSpeech = word.Attribute("postag").Value[0].ToString().ToLower()
-                };
+                })
+                .Where(wordPartOfSpeech => IsValid(wordPartOfSpeech.Word));
+        }
+
+        private static bool IsValid(string word)
+        {
+            return Regex.IsMatch(word, @"^[a-z_]+$");
         }
 
         private static void SaveProbabilities(string filename)
