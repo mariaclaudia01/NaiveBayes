@@ -18,7 +18,7 @@ namespace NaiveBayes
             var reader = new TrainingSetReader();
             var trainingSet = reader.Read("training.xml");
             basicGlobalProbability = new BasicGlobalProbability(trainingSet);
-            SaveProbabilities("output.json");
+            SaveStatistics("output.json");
 
             Console.WriteLine("Press CTRL+C to stop the program");
             
@@ -27,14 +27,11 @@ namespace NaiveBayes
                 string word = Console.ReadLine();
                 PrintMaxProbabilityPartOfSpeech(word);
             }
-        }
+        }      
 
-       
-
-        private static void SaveProbabilities(string filename)
+        private static void SaveStatistics(string filename)
         {
-            var probabilities = basicGlobalProbability.AllProbabilities();
-            string output = JsonConvert.SerializeObject(probabilities, Formatting.Indented);
+            string output = JsonConvert.SerializeObject(basicGlobalProbability.Statistics, Formatting.Indented);
             File.WriteAllText(filename, output);
         }
 

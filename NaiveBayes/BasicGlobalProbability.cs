@@ -5,7 +5,7 @@ namespace NaiveBayes
 {
     public class BasicGlobalProbability
     {
-        private readonly Dictionary<string, Dictionary<string, int>> occurrences =
+        public readonly Dictionary<string, Dictionary<string, int>> Statistics =
             new Dictionary<string, Dictionary<string, int>>();
 
         public BasicGlobalProbability(IEnumerable<WordPartOfSpeech> trainingSet)
@@ -18,18 +18,18 @@ namespace NaiveBayes
 
         private void CountOccurrence(WordPartOfSpeech item)
         {
-            if (!occurrences.ContainsKey(item.Word))
-                occurrences[item.Word] = new Dictionary<string, int>();
+            if (!Statistics.ContainsKey(item.Word))
+                Statistics[item.Word] = new Dictionary<string, int>();
 
-            if (!occurrences[item.Word].ContainsKey(item.PartOfSpeech))
-                occurrences[item.Word][item.PartOfSpeech] = 0;
+            if (!Statistics[item.Word].ContainsKey(item.PartOfSpeech))
+                Statistics[item.Word][item.PartOfSpeech] = 0;
 
-            occurrences[item.Word][item.PartOfSpeech]++;
+            Statistics[item.Word][item.PartOfSpeech]++;
         }
 
         public List<PartOfSpeechProbability> Probabilities(string word)
         {
-            if (!occurrences.ContainsKey(word)) 
+            if (!Statistics.ContainsKey(word))
                 return new List<PartOfSpeechProbability>();
 
             return PartsOfSpeech(word).Select(
@@ -42,27 +42,18 @@ namespace NaiveBayes
 
         private IEnumerable<string> PartsOfSpeech(string word)
         {
-            return occurrences[word].Keys;
+            return Statistics[word].Keys;
         }
 
         private double Probability(string word, string partOfSpeech)
         {
-            return (double)occurrences[word][partOfSpeech] / TotalOccurrences(word);
+            return (double)Statistics[word][partOfSpeech] / TotalOccurrences(word);
         }
 
         private long TotalOccurrences(string word)
         {
-            return occurrences[word].Keys
-                .Sum(partOfSpeech => occurrences[word][partOfSpeech]);
-        }
-
-        public Dictionary<string, Dictionary<string, double>> AllProbabilities()
-        {
-            return occurrences.ToDictionary(
-                x => x.Key, 
-                x => x.Value.ToDictionary(
-                    y=>y.Key, 
-                    y=>Probability(x.Key, y.Key)));
+            return Statistics[word].Keys
+                .Sum(partOfSpeech => Statistics[word][partOfSpeech]);
         }
     }
 }
