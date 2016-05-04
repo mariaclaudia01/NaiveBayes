@@ -33,8 +33,8 @@ namespace NaiveBayes
                 .XPathSelectElements("/text/sentence/word")
                 select new WordPartOfSpeech
                 {
-                    Word = word.Attribute("lemma").Value,
-                    PartOfSpeech = word.Attribute("postag").Value[0].ToString()
+                    Word = word.Attribute("lemma").Value.ToLower(),
+                    PartOfSpeech = word.Attribute("postag").Value[0].ToString().ToLower()
                 };
         }
 
