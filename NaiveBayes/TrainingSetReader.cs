@@ -13,8 +13,9 @@ namespace NaiveBayes
             var wordXmlTags = ReadWordXmlTags(filename);
             int trainingItemsCount = (int)(wordXmlTags.Count() * 0.7);
 
-            return wordXmlTags.Select(Parse)
-                .Where(wordPartOfSpeech => IsValid(wordPartOfSpeech.Word))
+            return wordXmlTags
+                .Select(Parse)
+                .Where(IsValid)
                 .Take(trainingItemsCount);
         }
 
@@ -33,9 +34,9 @@ namespace NaiveBayes
             };
         }
 
-        private bool IsValid(string word)
+        private bool IsValid(WordPartOfSpeech trainingItem)
         {
-            return Regex.IsMatch(word, @"^[a-z_]+$");
+            return Regex.IsMatch(trainingItem.Word, @"^[a-z_]+$");
         }
     }
 }
