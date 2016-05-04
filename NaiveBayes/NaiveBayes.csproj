@@ -49,6 +49,7 @@
     <Compile Include="PartOfSpeechProbability.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TrainingSetReader.cs" />
     <Compile Include="WordPartOfSpeech.cs" />
   </ItemGroup>
   <ItemGroup>

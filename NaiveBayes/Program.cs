@@ -15,7 +15,8 @@ namespace NaiveBayes
 
         private static void Main(string[] args)
         {
-            var trainingSet = ReadTrainingSet("training.xml");
+            var reader = new TrainingSetReader();
+            var trainingSet = reader.Read("training.xml");
             basicGlobalProbability = new BasicGlobalProbability(trainingSet);
             SaveProbabilities("output.json");
 
@@ -28,34 +29,7 @@ namespace NaiveBayes
             }
         }
 
-        private static IEnumerable<WordPartOfSpeech> ReadTrainingSet(string filename)
-        {
-            var wordXmlTags = ReadWordXmlTags(filename);
-            int trainingItemsCount = (int)(wordXmlTags.Count() * 0.7);
-            return wordXmlTags
-                .Select(Parse)
-                .Where(wordPartOfSpeech => IsValid(wordPartOfSpeech.Word))
-                .Take(trainingItemsCount);
-        }
-        
-        private static IEnumerable<XElement> ReadWordXmlTags(string filename)
-        {
-            return XDocument.Load(filename)
-               .XPathSelectElements("/text/sentence/word");
-        }
-
-        private static WordPartOfSpeech Parse(XElement wordXmlTag) 
-        {
-            return new WordPartOfSpeech
-                {
-                    Word = wordXmlTag.Attribute("lemma").Value.ToLower(),
-                    PartOfSpeech = wordXmlTag.Attribute("postag").Value[0].ToString().ToLower()
-                };
-        }
-        private static bool IsValid(string word)
-        {
-            return Regex.IsMatch(word, @"^[a-z_]+$");
-        }
+       
 
         private static void SaveProbabilities(string filename)
         {
