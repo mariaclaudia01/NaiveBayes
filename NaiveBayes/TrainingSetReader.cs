@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 
 namespace NaiveBayes
@@ -15,16 +12,17 @@ namespace NaiveBayes
         {
             var wordXmlTags = ReadWordXmlTags(filename);
             int trainingItemsCount = (int)(wordXmlTags.Count() * 0.7);
+
             return wordXmlTags
                 .Select(Parse)
-                .Where(wordPartOfSpeech => IsValid(wordPartOfSpeech.Word))
+                .Where(IsValid)
                 .Take(trainingItemsCount);
         }
 
-        private IEnumerable<XElement> ReadWordXmlTags(string filename)
+        private List<XElement> ReadWordXmlTags(string filename)
         {
             return XDocument.Load(filename)
-               .XPathSelectElements("/text/sentence/word");
+               .XPathSelectElements("/text/sentence/word").ToList();
         }
 
         private WordPartOfSpeech Parse(XElement wordXmlTag)
@@ -35,9 +33,10 @@ namespace NaiveBayes
                 PartOfSpeech = wordXmlTag.Attribute("postag").Value[0].ToString().ToLower()
             };
         }
-        private bool IsValid(string word)
+
+        private bool IsValid(WordPartOfSpeech trainingItem)
         {
-            return Regex.IsMatch(word, @"^[a-z_]+$");
+            return Regex.IsMatch(trainingItem.Word, @"^[a-z_]+$");
         }
     }
 }
