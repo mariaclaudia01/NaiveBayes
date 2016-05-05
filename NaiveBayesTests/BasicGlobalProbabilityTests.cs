@@ -95,5 +95,19 @@ namespace NaiveBayesTests
 
             Assert.AreEqual(0, actual.Count());
         }
+
+        [TestMethod]
+        public void TrainingSetContainsOnePartOfSpeechThatAppearsTwice()
+        {
+            var trainingSet = new List<WordPartOfSpeech>()
+             {
+                new WordPartOfSpeech {Word = "a", PartOfSpeech = "x"},
+                new WordPartOfSpeech {Word = "b", PartOfSpeech = "x"}
+            };
+
+            var basicGlobalProbability = new BasicGlobalProbability(trainingSet);
+
+            Assert.AreEqual(2, basicGlobalProbability.PartOfSpeechStatistics["x"]);
+        }
     }
 }

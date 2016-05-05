@@ -31,8 +31,8 @@ namespace NaiveBayes
 
         private static void SaveStatistics(string filename)
         {
-            string output = JsonConvert.SerializeObject(basicGlobalProbability.Statistics, Formatting.Indented);
-            File.WriteAllText(filename, output);
+            string statistics = JsonConvert.SerializeObject(basicGlobalProbability, Formatting.Indented);
+            File.WriteAllText(filename, statistics);           
         }
 
         private static void PrintMaxProbabilityPartOfSpeech(string word)
