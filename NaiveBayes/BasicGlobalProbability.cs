@@ -24,15 +24,17 @@ namespace NaiveBayes
             if (!WordStatistics.ContainsKey(item.Word))
                 WordStatistics[item.Word] = new Dictionary<string, int>();
 
-            if (!WordStatistics[item.Word].ContainsKey(item.PartOfSpeech))
-                WordStatistics[item.Word][item.PartOfSpeech] = 0;
+            Increment(WordStatistics[item.Word], item.PartOfSpeech);
+            Increment(PartOfSpeechStatistics, item.PartOfSpeech);
+        }
 
-            WordStatistics[item.Word][item.PartOfSpeech]++;
-
-            if (!PartOfSpeechStatistics.ContainsKey(item.PartOfSpeech))
-                PartOfSpeechStatistics[item.PartOfSpeech] = 0;
-
-            PartOfSpeechStatistics[item.PartOfSpeech]++;   
+        private void Increment(Dictionary<string, int> dictionary, string key)
+        {
+            if (!dictionary.ContainsKey(key))
+            {
+                dictionary[key] = 0;
+            }
+            dictionary[key]++;   
         }
 
         public List<PartOfSpeechProbability> Probabilities(string word)
