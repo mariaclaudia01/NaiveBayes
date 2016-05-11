@@ -36,7 +36,7 @@ namespace NaiveBayes
 
         private bool IsValid(WordPartOfSpeech trainingItem)
         {
-            return Regex.IsMatch(trainingItem.Word, @"^[a-z_]+$");
+            return Regex.IsMatch(trainingItem.Word, @"^[a-z_]*[a-z]+$");
         }
     }
 }
