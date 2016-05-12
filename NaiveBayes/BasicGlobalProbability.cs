@@ -37,6 +37,26 @@ namespace NaiveBayes
             dictionary[key]++;   
         }
 
+        public string PredictPartOfSpeech(string word)
+        {
+            var partOfSpeechProbabilities = Probabilities(word);
+
+            if (partOfSpeechProbabilities.Any())
+            {
+                return partOfSpeechProbabilities.OrderBy(p => p.Probability).Last().PartOfSpeech;
+            }
+            else
+            {
+                return MostLikelyPartOfSpeech(); 
+            }
+        }
+
+        private string MostLikelyPartOfSpeech()
+        {
+           return PartOfSpeechStatistics
+                    .Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
+        }
+
         public List<PartOfSpeechProbability> Probabilities(string word)
         {
             if (!WordStatistics.ContainsKey(word))
