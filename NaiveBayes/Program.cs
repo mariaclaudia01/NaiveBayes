@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace NaiveBayes
 {
@@ -11,39 +12,43 @@ namespace NaiveBayes
 
         private static void Main(string[] args)
         {
-            var reader = new TrainingSetReader();
-            var trainingSet = reader.Read("training.xml");
+            var reader = new LabeledDataReader();
+            var data = reader.Read("data.xml");
+
+            var trainingSet = Extract(data, 0, 0.7);
             basicGlobalProbability = new BasicGlobalProbability(trainingSet);
             SaveStatistics("output.json");
 
-            Console.WriteLine("Press CTRL+C to stop the program");
-            
-            while (true)
-            {
-                string word = Console.ReadLine();
-                PrintMaxProbabilityPartOfSpeech(word);
-            }
-        }      
+            var testSet = Extract(data, 0.7, 1);
+            ComputeAccuracy(testSet);
+        }
+
+        private static IEnumerable<T> Extract<T>(IEnumerable<T> elements, double startPercent, double stopPercent)
+        {
+            int x = (int)(elements.Count() * startPercent);
+            int y = (int)(elements.Count() * (stopPercent - startPercent));
+
+            return elements.Skip(x).Take(y);
+        }
 
         private static void SaveStatistics(string filename)
         {
             string statistics = JsonConvert.SerializeObject(basicGlobalProbability, Formatting.Indented);
-            File.WriteAllText(filename, statistics);           
+            File.WriteAllText(filename, statistics);
         }
 
-        private static void PrintMaxProbabilityPartOfSpeech(string word)
+        private static void ComputeAccuracy(IEnumerable<WordPartOfSpeech> testSet)
         {
-            var partOfSpeechProbabilities = basicGlobalProbability.Probabilities(word);
+            int successfulPredictions = testSet
+                .Where(IsSuccessfulPrediction)
+                .Count();
 
-            if (partOfSpeechProbabilities.Any())
-            {
-                var maxProbabilityPartOfSpeech = partOfSpeechProbabilities.OrderBy(p => p.Probability).Last();
-                Console.WriteLine(maxProbabilityPartOfSpeech.PartOfSpeech);
-            }
-            else
-            {
-                Console.WriteLine("Word not found");
-            }
+            Console.WriteLine((double)successfulPredictions / testSet.Count());
+        }
+
+        private static bool IsSuccessfulPrediction(WordPartOfSpeech testItem)
+        {
+            return basicGlobalProbability.PredictPartOfSpeech(testItem.Word) == testItem.PartOfSpeech;
         }
     }
 }

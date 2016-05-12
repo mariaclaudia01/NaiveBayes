@@ -6,20 +6,15 @@ using System.Text.RegularExpressions;
 
 namespace NaiveBayes
 {
-    class TrainingSetReader
+    class LabeledDataReader
     {
         public IEnumerable<WordPartOfSpeech> Read(string filename)
         {
-            var words = ReadWordXmlTags(filename)
+           return ReadWordXmlTags(filename)
                 .Select(Parse)
-                .Where(IsValid)
-                .ToList();
-
-            int trainingItemsCount = (int)(words.Count() * 0.7);
-
-            return words.Take(trainingItemsCount);
+                .Where(IsValid);
         }
-
+        
         private IEnumerable<XElement> ReadWordXmlTags(string filename)
         {
             return XDocument.Load(filename)
