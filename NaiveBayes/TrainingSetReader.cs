@@ -10,19 +10,20 @@ namespace NaiveBayes
     {
         public IEnumerable<WordPartOfSpeech> Read(string filename)
         {
-            var wordXmlTags = ReadWordXmlTags(filename);
-            int trainingItemsCount = (int)(wordXmlTags.Count() * 0.7);
-
-            return wordXmlTags
+            var words = ReadWordXmlTags(filename)
                 .Select(Parse)
                 .Where(IsValid)
-                .Take(trainingItemsCount);
+                .ToList();
+
+            int trainingItemsCount = (int)(words.Count() * 0.7);
+
+            return words.Take(trainingItemsCount);
         }
 
-        private List<XElement> ReadWordXmlTags(string filename)
+        private IEnumerable<XElement> ReadWordXmlTags(string filename)
         {
             return XDocument.Load(filename)
-               .XPathSelectElements("/text/sentence/word").ToList();
+               .XPathSelectElements("/text/sentence/word");
         }
 
         private WordPartOfSpeech Parse(XElement wordXmlTag)
