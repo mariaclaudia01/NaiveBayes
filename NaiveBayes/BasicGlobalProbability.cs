@@ -5,11 +5,10 @@ namespace NaiveBayes
 {
     public class BasicGlobalProbability
     {
-        public readonly Dictionary<string, int> PartOfSpeechStatistics =
-           new Dictionary<string, int>(); 
+        public readonly StatisticsDictionary PartOfSpeechStatistics = new StatisticsDictionary();
 
-        public readonly Dictionary<string, Dictionary<string, int>> WordStatistics =
-            new Dictionary<string, Dictionary<string, int>>();
+        public readonly Dictionary<string, StatisticsDictionary> WordStatistics =
+            new Dictionary<string, StatisticsDictionary>();
            
         public BasicGlobalProbability(IEnumerable<WordPartOfSpeech> trainingSet)
         {
@@ -22,19 +21,10 @@ namespace NaiveBayes
         private void CountOccurrence(WordPartOfSpeech item)
         {
             if (!WordStatistics.ContainsKey(item.Word))
-                WordStatistics[item.Word] = new Dictionary<string, int>();
+                WordStatistics[item.Word] = new StatisticsDictionary();
 
-            Increment(WordStatistics[item.Word], item.PartOfSpeech);
-            Increment(PartOfSpeechStatistics, item.PartOfSpeech);
-        }
-
-        private void Increment(Dictionary<string, int> dictionary, string key)
-        {
-            if (!dictionary.ContainsKey(key))
-            {
-                dictionary[key] = 0;
-            }
-            dictionary[key]++;   
+            WordStatistics[item.Word].Increment(item.PartOfSpeech);
+            PartOfSpeechStatistics.Increment(item.PartOfSpeech);
         }
 
         public string PredictPartOfSpeech(string word)
@@ -45,16 +35,7 @@ namespace NaiveBayes
             {
                 return partOfSpeechProbabilities.OrderBy(p => p.Probability).Last().PartOfSpeech;
             }
-            else
-            {
-                return MostLikelyPartOfSpeech(); 
-            }
-        }
-
-        private string MostLikelyPartOfSpeech()
-        {
-           return PartOfSpeechStatistics
-                    .Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
+            return PartOfSpeechStatistics.KeyWithMaxValue();
         }
 
         public List<PartOfSpeechProbability> Probabilities(string word)

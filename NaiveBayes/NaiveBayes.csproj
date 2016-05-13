@@ -50,6 +50,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LabeledDataReader.cs" />
+    <Compile Include="StatisticsDictionary.cs" />
     <Compile Include="WordPartOfSpeech.cs" />
   </ItemGroup>
   <ItemGroup>

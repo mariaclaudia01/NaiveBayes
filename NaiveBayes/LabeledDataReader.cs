@@ -8,19 +8,15 @@ namespace NaiveBayes
 {
     class LabeledDataReader
     {
-        public IEnumerable<WordPartOfSpeech> Read(string filename)
-        {
-           return ReadWordXmlTags(filename)
-                .Select(Parse)
-                .Where(IsValid);
-        }
-        
-        private IEnumerable<XElement> ReadWordXmlTags(string filename)
+        public List<WordPartOfSpeech> Read(string filename)
         {
             return XDocument.Load(filename)
-               .XPathSelectElements("/text/sentence/word");
+                .XPathSelectElements("/text/sentence/word")
+                .Select(Parse)
+                .Where(IsValid)
+                .ToList();
         }
-
+        
         private WordPartOfSpeech Parse(XElement wordXmlTag)
         {
             return new WordPartOfSpeech
@@ -30,7 +26,7 @@ namespace NaiveBayes
             };
         }
 
-        Dictionary<char, string> map = new Dictionary<char, string>
+        readonly Dictionary<char, string> map = new Dictionary<char, string>
         {
             	{'t', "articol"},
                 {'n', "subst"},

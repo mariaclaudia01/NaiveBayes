@@ -23,12 +23,12 @@ namespace NaiveBayes
             ComputeAccuracy(testSet);
         }
 
-        private static IEnumerable<T> Extract<T>(IEnumerable<T> elements, double startPercent, double stopPercent)
+        private static List<T> Extract<T>(List<T> elements, double startPercent, double stopPercent)
         {
             int x = (int)(elements.Count() * startPercent);
             int y = (int)(elements.Count() * (stopPercent - startPercent));
 
-            return elements.Skip(x).Take(y);
+            return elements.Skip(x).Take(y).ToList();
         }
 
         private static void SaveStatistics(string filename)
@@ -37,7 +37,7 @@ namespace NaiveBayes
             File.WriteAllText(filename, statistics);
         }
 
-        private static void ComputeAccuracy(IEnumerable<WordPartOfSpeech> testSet)
+        private static void ComputeAccuracy(List<WordPartOfSpeech> testSet)
         {
             int successfulPredictions = testSet
                 .Where(IsSuccessfulPrediction)
