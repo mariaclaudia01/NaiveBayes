@@ -28,17 +28,20 @@ namespace NaiveBayes
 
         readonly Dictionary<char, string> map = new Dictionary<char, string>
         {
-            	{'t', "articol"},
-                {'n', "subst"},
-                {'a', "adj"},
-                {'v', "verb"},
-                {'q', "conj"},
-                {'p', "pron"},
-                {'r', "adv"},
-                {'c', "conj"},
-                {'d', "pron"},
-                {'i', "interj"}, 
-                {'m', "numeral"},
+            	 {'n', "subst"},
+                 {'m', "subst"},
+                 {'d', "subst"},
+                 {'v', "verb"},
+                 {'a', "adj"},
+                 {'r', "adv"},
+                 {'t', "adv"},
+                 {'q', "articol"},
+                 {'c', "articol"},
+            	 {'i', "altele"}, 
+                 {'s', "prepozitie"},
+                 {'y', "prepozitie"},
+                 {'x', "altele"}, 
+                 {'p', "articol"}, 
         };
 
         string Normalize(string posTag)
