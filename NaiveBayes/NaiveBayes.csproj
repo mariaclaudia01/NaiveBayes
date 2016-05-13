@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasicGlobalProbability.cs" />
+    <Compile Include="ListPercentageExtensions.cs" />
     <Compile Include="PartOfSpeechProbability.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

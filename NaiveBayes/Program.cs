@@ -15,20 +15,12 @@ namespace NaiveBayes
             var reader = new LabeledDataReader();
             var data = reader.Read("data.xml");
 
-            var trainingSet = Extract(data, 0, 0.7);
+            var trainingSet = data.TakePercent(0.7);
             basicGlobalProbability = new BasicGlobalProbability(trainingSet);
             SaveStatistics("output.json");
 
-            var testSet = Extract(data, 0.7, 1);
+            var testSet = data.SkipPercent(0.7);
             ComputeAccuracy(testSet);
-        }
-
-        private static List<T> Extract<T>(List<T> elements, double startPercent, double stopPercent)
-        {
-            int x = (int)(elements.Count() * startPercent);
-            int y = (int)(elements.Count() * (stopPercent - startPercent));
-
-            return elements.Skip(x).Take(y).ToList();
         }
 
         private static void SaveStatistics(string filename)
