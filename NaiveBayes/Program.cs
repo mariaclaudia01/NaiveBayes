@@ -21,6 +21,7 @@ namespace NaiveBayes
 
             var testSet = data.SkipPercent(0.7);
             ComputeAccuracy(testSet);
+            Console.ReadKey();
         }
 
         private static void SaveStatistics(string filename)
