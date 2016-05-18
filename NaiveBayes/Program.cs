@@ -18,7 +18,6 @@ namespace NaiveBayes
             Train();                 
             SaveStatistics("output.json");
             ComputeAccuracy();
-
             Console.ReadKey();
         }
 
@@ -45,16 +44,8 @@ namespace NaiveBayes
 
         private static void ComputeAccuracy()
         {
-            int successfulPredictions = testSet
-                .Where(IsSuccessfulPrediction)
-                .Count();
-
-            Console.WriteLine((double)successfulPredictions / testSet.Count());
-        }
-
-        private static bool IsSuccessfulPrediction(WordPartOfSpeech testItem)
-        {
-            return predictor.PredictPartOfSpeech(testItem.Word) == testItem.PartOfSpeech;
-        }
+            var accuracy = new Accuracy(predictor);
+            Console.WriteLine(accuracy.Compute(testSet));
+        }        
     }
 }

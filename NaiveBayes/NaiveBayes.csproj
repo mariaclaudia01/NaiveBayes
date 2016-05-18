@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Accuracy.cs" />
     <Compile Include="BackwardNaiveBayes.cs" />
     <Compile Include="BasicGlobalProbability.cs" />
     <Compile Include="IPredictor.cs" />
