@@ -8,29 +8,42 @@ namespace NaiveBayes
 {
     class Program
     {
-        private static BasicGlobalProbability basicGlobalProbability;
+        private static IPredictor predictor;
+        private static List<WordPartOfSpeech> trainingSet;
+        private static List<WordPartOfSpeech> testSet;
 
         private static void Main(string[] args)
         {
-            var reader = new LabeledDataReader();
-            var data = reader.Read("data.xml");
-
-            var trainingSet = data.TakePercent(0.7);
-            basicGlobalProbability = new BasicGlobalProbability(trainingSet);
+            Read("data.xml");
+            Train();                 
             SaveStatistics("output.json");
+            ComputeAccuracy();
 
-            var testSet = data.SkipPercent(0.7);
-            ComputeAccuracy(testSet);
             Console.ReadKey();
+        }
+
+        private static void Read(string filename)
+        {
+            var reader = new LabeledDataReader();
+            var data = reader.Read(filename);
+
+            trainingSet = data.TakePercent(0.7);
+            testSet = data.SkipPercent(0.7);
+        }
+
+        private static void Train()
+        {
+            predictor = new BasicGlobalProbability();
+            predictor.Train(trainingSet);
         }
 
         private static void SaveStatistics(string filename)
         {
-            string statistics = JsonConvert.SerializeObject(basicGlobalProbability, Formatting.Indented);
+            string statistics = JsonConvert.SerializeObject(predictor, Formatting.Indented);
             File.WriteAllText(filename, statistics);
         }
 
-        private static void ComputeAccuracy(List<WordPartOfSpeech> testSet)
+        private static void ComputeAccuracy()
         {
             int successfulPredictions = testSet
                 .Where(IsSuccessfulPrediction)
@@ -41,7 +54,7 @@ namespace NaiveBayes
 
         private static bool IsSuccessfulPrediction(WordPartOfSpeech testItem)
         {
-            return basicGlobalProbability.PredictPartOfSpeech(testItem.Word) == testItem.PartOfSpeech;
+            return predictor.PredictPartOfSpeech(testItem.Word) == testItem.PartOfSpeech;
         }
     }
 }

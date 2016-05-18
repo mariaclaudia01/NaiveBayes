@@ -3,14 +3,14 @@ using System.Linq;
 
 namespace NaiveBayes
 {
-    public class BasicGlobalProbability
+    public class BasicGlobalProbability: IPredictor
     {
         public readonly StatisticsDictionary PartOfSpeechStatistics = new StatisticsDictionary();
 
         public readonly Dictionary<string, StatisticsDictionary> WordStatistics =
-            new Dictionary<string, StatisticsDictionary>();
-           
-        public BasicGlobalProbability(IEnumerable<WordPartOfSpeech> trainingSet)
+            new Dictionary<string, StatisticsDictionary>();           
+        
+        public void Train(IEnumerable<WordPartOfSpeech> trainingSet)
         {
             foreach (var trainingSetItem in trainingSet)
             {

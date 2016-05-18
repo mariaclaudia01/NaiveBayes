@@ -8,6 +8,14 @@ namespace NaiveBayesTests
     [TestClass]
     public class BasicGlobalProbabilityTests
     {
+        BasicGlobalProbability basicGlobalProbability;
+
+        [TestInitialize]
+        public void Setup()
+        {
+            basicGlobalProbability = new BasicGlobalProbability();
+        }
+
         [TestMethod]
         public void TrainingSetContainsOneWordAsTwoDifferentEquallyLikelyPartsOfSpeech()
         {
@@ -17,7 +25,7 @@ namespace NaiveBayesTests
                 new WordPartOfSpeech {Word = "a", PartOfSpeech = "y"}
             };
 
-            var basicGlobalProbability = new BasicGlobalProbability(trainingSet);
+            basicGlobalProbability.Train(trainingSet);
 
             var actual = basicGlobalProbability.Probabilities("a");
 
@@ -41,7 +49,7 @@ namespace NaiveBayesTests
                 new WordPartOfSpeech {Word = "a", PartOfSpeech = "y"}
             };
 
-            var basicGlobalProbability = new BasicGlobalProbability(trainingSet);
+            basicGlobalProbability.Train(trainingSet);
 
             var actual = basicGlobalProbability.Probabilities("a");
 
@@ -63,7 +71,7 @@ namespace NaiveBayesTests
                 new WordPartOfSpeech {Word = "b", PartOfSpeech = "y"}
             };
 
-            var basicGlobalProbability = new BasicGlobalProbability(trainingSet);
+            basicGlobalProbability.Train(trainingSet);
 
             var actual = basicGlobalProbability.Probabilities("a");
 
@@ -89,7 +97,7 @@ namespace NaiveBayesTests
         {
             var emptyTrainingSet = new List<WordPartOfSpeech>();
 
-            var basicGlobalProbability = new BasicGlobalProbability(emptyTrainingSet);
+            basicGlobalProbability.Train(emptyTrainingSet);
 
             var actual = basicGlobalProbability.Probabilities("a");
 
@@ -105,7 +113,7 @@ namespace NaiveBayesTests
                 new WordPartOfSpeech {Word = "b", PartOfSpeech = "x"}
             };
 
-            var basicGlobalProbability = new BasicGlobalProbability(trainingSet);
+            basicGlobalProbability.Train(trainingSet);
 
             Assert.AreEqual(2, basicGlobalProbability.PartOfSpeechStatistics["x"]);
         }
