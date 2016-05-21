@@ -29,13 +29,13 @@ namespace NaiveBayesTests
 
             var actual = basicGlobalProbability.Probabilities("a");
 
-            var expected = new List<PartOfSpeechProbability>
+            var expected = new Dictionary<string, double>
             {
-                new PartOfSpeechProbability{PartOfSpeech = "x", Probability = .5},
-                new PartOfSpeechProbability{PartOfSpeech = "y", Probability = .5}
+                {"x", 0.5},
+                {"y", 0.5}
             };
 
-            CollectionAssert.AreEqual(expected, actual);
+            CollectionAssert.AreEquivalent(expected, actual);
         }
 
         [TestMethod]
@@ -53,10 +53,10 @@ namespace NaiveBayesTests
 
             var actual = basicGlobalProbability.Probabilities("a");
 
-            var expected = new List<PartOfSpeechProbability>
+            var expected = new Dictionary<string, double>
             {
-                new PartOfSpeechProbability{PartOfSpeech = "x", Probability = .75},
-                new PartOfSpeechProbability{PartOfSpeech = "y", Probability = .25}
+                {"x", 0.75},
+                {"y", 0.25}
             };
 
             CollectionAssert.AreEqual(expected, actual);
@@ -75,18 +75,18 @@ namespace NaiveBayesTests
 
             var actual = basicGlobalProbability.Probabilities("a");
 
-            var expected = new List<PartOfSpeechProbability>
+            var expected = new Dictionary<string, double>
             {
-                new PartOfSpeechProbability{PartOfSpeech = "x", Probability = 1}
+                {"x", 1}
             };
 
             CollectionAssert.AreEqual(expected, actual);
 
             actual = basicGlobalProbability.Probabilities("b");
 
-            expected = new List<PartOfSpeechProbability>
+            expected = new Dictionary<string, double>
             {
-                new PartOfSpeechProbability{PartOfSpeech = "y", Probability = 1}
+                {"y", 1}
             };
 
             CollectionAssert.AreEqual(expected, actual);

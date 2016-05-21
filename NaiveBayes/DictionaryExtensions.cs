@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace NaiveBayes
@@ -18,9 +19,16 @@ namespace NaiveBayes
             return val;
         }
 
-        public static TKey KeyWithMaxValue<TKey>(this Dictionary<TKey, int> dictionary)
+        public static TKey KeyWithMaxValue<TKey, TValue>(this Dictionary<TKey, TValue> dictionary) where TValue: IComparable
         {
-            return dictionary.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
+            return dictionary.Aggregate((l, r) => l.Value.CompareTo(r.Value) == 1 ? l : r).Key;
+        }
+
+        public static Dictionary<TKey, double> Statistics<TKey>(this Dictionary<TKey, int> dictionary)
+        {
+            return dictionary.ToDictionary(
+                item => item.Key,
+                item => (double) dictionary[item.Key]/dictionary.Values.Sum());
         }
     }
 }

@@ -33,38 +33,14 @@ namespace NaiveBayes
 
             if (partOfSpeechProbabilities.Any())
             {
-                return partOfSpeechProbabilities.OrderBy(p => p.Probability).Last().PartOfSpeech;
+                return partOfSpeechProbabilities.KeyWithMaxValue();
             }
             return PartOfSpeechStatistics.KeyWithMaxValue();
         }
 
-        public List<PartOfSpeechProbability> Probabilities(string word)
+        public Dictionary<string, double> Probabilities(string word)
         {
-            if (!WordStatistics.ContainsKey(word))
-                return new List<PartOfSpeechProbability>();
-
-            return PartsOfSpeech(word).Select(
-                partOfSpeech => new PartOfSpeechProbability
-                {
-                    PartOfSpeech = partOfSpeech,
-                    Probability = Probability(word, partOfSpeech)
-                }).ToList();
+            return WordStatistics.GetOrCreate(word).Statistics();
         }
-
-        private IEnumerable<string> PartsOfSpeech(string word)
-        {
-            return WordStatistics[word].Keys;
-        }
-
-        private double Probability(string word, string partOfSpeech)
-        {
-            return (double)WordStatistics[word][partOfSpeech] / TotalOccurrences(word);
-        }
-
-        private long TotalOccurrences(string word)
-        {
-            return PartsOfSpeech(word)
-                .Sum(partOfSpeech => WordStatistics[word][partOfSpeech]);
-        }      
     }
 }

@@ -29,9 +29,9 @@ namespace NaiveBayes
             Statistics[current.Word][current.PartOfSpeech][predecessor.PartOfSpeech]++;
         }
 
-        public List<PartOfSpeechProbability> Probabilities(string word, string previousPartOfSpeech)
+        public Dictionary<string, double> Probabilities(string word, string previousPartOfSpeech)
         {
-            return new List<PartOfSpeechProbability>();
+            return new Dictionary<string, double>();
         }
 
         public string PredictPartOfSpeech(string word)
