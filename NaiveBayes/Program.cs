@@ -7,16 +7,16 @@ namespace NaiveBayes
 {
     class Program
     {
-        private static BasicGlobalProbability predictor;
         private static List<WordPartOfSpeech> trainingSet;
         private static List<WordPartOfSpeech> testSet;
 
         private static void Main(string[] args)
         {
             Read("data.xml");
-            Train();                 
-            SaveStatistics("output.json");
-            ComputeAccuracy();
+
+            Evaluate(new BasicGlobalProbability());
+            Evaluate(new BackwardNaiveBayes());
+            
             Console.ReadKey();
         }
 
@@ -29,22 +29,19 @@ namespace NaiveBayes
             testSet = data.SkipPercent(0.7);
         }
 
-        private static void Train()
+        private static void Evaluate(ITrainable classifier)
         {
-            predictor = new BasicGlobalProbability();
-            predictor.Train(trainingSet);
+            classifier.Train(trainingSet);
+            Save(classifier);
+
+            double accuracy = classifier.Accuracy(testSet);
+            Console.WriteLine(accuracy);
         }
 
-        private static void SaveStatistics(string filename)
+        private static void Save(ITrainable classifier)
         {
-            string statistics = JsonConvert.SerializeObject(predictor, Formatting.Indented);
-            File.WriteAllText(filename, statistics);
-        }
-
-        private static void ComputeAccuracy()
-        {
-            var accuracy = new BasicGlobalProbabilityAccuracy(predictor);
-            Console.WriteLine(accuracy.Compute(testSet));
+            string statistics = JsonConvert.SerializeObject(classifier, Formatting.Indented);
+            File.WriteAllText(classifier + ".json", statistics);
         }
     }
 }

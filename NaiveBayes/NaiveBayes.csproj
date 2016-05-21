@@ -45,9 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BasicGlobalProbabilityAccuracy.cs" />
     <Compile Include="BackwardNaiveBayes.cs" />
     <Compile Include="BasicGlobalProbability.cs" />
+    <Compile Include="ITrainable.cs" />
     <Compile Include="ListPercentageExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

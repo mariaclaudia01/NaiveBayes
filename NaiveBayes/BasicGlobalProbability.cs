@@ -3,19 +3,16 @@ using System.Linq;
 
 namespace NaiveBayes
 {
-    public class BasicGlobalProbability
+    public class BasicGlobalProbability: ITrainable
     {
         public readonly Dictionary<string, int> PartOfSpeechStatistics = new Dictionary<string, int>();
 
         public readonly Dictionary<string, Dictionary<string, int>> WordStatistics =
             new Dictionary<string, Dictionary<string, int>>();           
         
-        public void Train(IEnumerable<WordPartOfSpeech> trainingSet)
+        public void Train(List<WordPartOfSpeech> trainingSet)
         {
-            foreach (var item in trainingSet)
-            {
-                Train(item);
-            }
+            trainingSet.ForEach(Train);
         }
 
         private void Train(WordPartOfSpeech item)
@@ -27,7 +24,7 @@ namespace NaiveBayes
             PartOfSpeechStatistics[item.PartOfSpeech]++;
         }
 
-        public string PredictPartOfSpeech(string word)
+        public string PartOfSpeech(string word)
         {
             var partOfSpeechProbabilities = Probabilities(word);
 
@@ -41,6 +38,14 @@ namespace NaiveBayes
         public Dictionary<string, double> Probabilities(string word)
         {
             return WordStatistics.GetOrCreate(word).Statistics();
+        }
+
+        public double Accuracy(List<WordPartOfSpeech> testSet)
+        {
+            int successfulPredictions = testSet
+                .Count(item => PartOfSpeech(item.Word) == item.PartOfSpeech);
+
+            return (double)successfulPredictions / testSet.Count;
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace NaiveBayes
 {
-    public class BackwardNaiveBayes
+    public class BackwardNaiveBayes: ITrainable
     {
         private readonly BasicGlobalProbability basicGlobalProbability = new BasicGlobalProbability();
 
@@ -38,7 +38,7 @@ namespace NaiveBayes
             return Statistics.GetOrCreate(word).GetOrCreate(predecessorPartOfSpeech).Statistics();
         }
 
-        public string PredictPartOfSpeech(string word, string predecessorPartOfSpeech)
+        public string PartOfSpeech(string word, string predecessorPartOfSpeech)
         {
             var partOfSpeechProbabilities = Probabilities(word, predecessorPartOfSpeech);
 
@@ -46,7 +46,12 @@ namespace NaiveBayes
             {
                 return partOfSpeechProbabilities.KeyWithMaxValue();
             }
-            return basicGlobalProbability.PredictPartOfSpeech(word);
+            return basicGlobalProbability.PartOfSpeech(word);
+        }
+
+        public double Accuracy(List<WordPartOfSpeech> testSet)
+        {
+            return 0;
         }
     }
 }
