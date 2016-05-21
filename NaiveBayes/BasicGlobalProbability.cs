@@ -5,10 +5,10 @@ namespace NaiveBayes
 {
     public class BasicGlobalProbability
     {
-        public readonly StatisticsDictionary PartOfSpeechStatistics = new StatisticsDictionary();
+        public readonly Dictionary<string, int> PartOfSpeechStatistics = new Dictionary<string, int>();
 
-        public readonly Dictionary<string, StatisticsDictionary> WordStatistics =
-            new Dictionary<string, StatisticsDictionary>();           
+        public readonly Dictionary<string, Dictionary<string, int>> WordStatistics =
+            new Dictionary<string, Dictionary<string, int>>();           
         
         public void Train(IEnumerable<WordPartOfSpeech> trainingSet)
         {
@@ -20,11 +20,11 @@ namespace NaiveBayes
 
         private void CountOccurrence(WordPartOfSpeech item)
         {
-            if (!WordStatistics.ContainsKey(item.Word))
-                WordStatistics[item.Word] = new StatisticsDictionary();
+            WordStatistics.GetOrCreate(item.Word).GetOrCreate(item.PartOfSpeech);
+            WordStatistics[item.Word][item.PartOfSpeech]++;
 
-            WordStatistics[item.Word].Increment(item.PartOfSpeech);
-            PartOfSpeechStatistics.Increment(item.PartOfSpeech);
+            PartOfSpeechStatistics.GetOrCreate(item.PartOfSpeech);
+            PartOfSpeechStatistics[item.PartOfSpeech]++;
         }
 
         public string PredictPartOfSpeech(string word)
