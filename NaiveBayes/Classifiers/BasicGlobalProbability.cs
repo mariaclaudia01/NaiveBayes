@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using NaiveBayes.CollectionExtensions;
 
-namespace NaiveBayes
+namespace NaiveBayes.Classifiers
 {
     public class BasicGlobalProbability: ITrainable
     {

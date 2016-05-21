@@ -2,6 +2,9 @@
 using System.IO;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using NaiveBayes.Classifiers;
+using NaiveBayes.CollectionExtensions;
+using NaiveBayes.IO;
 
 namespace NaiveBayes
 {

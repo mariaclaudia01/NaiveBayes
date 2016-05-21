@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace NaiveBayes
+namespace NaiveBayes.Classifiers
 {
     public interface ITrainable
     {

@@ -45,15 +45,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BackwardNaiveBayes.cs" />
-    <Compile Include="BasicGlobalProbability.cs" />
-    <Compile Include="ITrainable.cs" />
-    <Compile Include="ListPercentageExtensions.cs" />
+    <Compile Include="Classifiers\BackwardNaiveBayes.cs" />
+    <Compile Include="Classifiers\BasicGlobalProbability.cs" />
+    <Compile Include="Classifiers\ITrainable.cs" />
+    <Compile Include="CollectionExtensions\ListExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="LabeledDataReader.cs" />
-    <Compile Include="DictionaryExtensions.cs" />
-    <Compile Include="WordPartOfSpeech.cs" />
+    <Compile Include="IO\LabeledDataReader.cs" />
+    <Compile Include="CollectionExtensions\DictionaryExtensions.cs" />
+    <Compile Include="Classifiers\WordPartOfSpeech.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

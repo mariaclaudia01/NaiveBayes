@@ -1,4 +1,4 @@
-﻿namespace NaiveBayes
+﻿namespace NaiveBayes.Classifiers
 {
     public struct WordPartOfSpeech
     {

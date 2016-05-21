@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using System.Text.RegularExpressions;
+using NaiveBayes.Classifiers;
 
-namespace NaiveBayes
+namespace NaiveBayes.IO
 {
     class LabeledDataReader
     {

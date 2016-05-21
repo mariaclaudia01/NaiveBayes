@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NaiveBayes
+namespace NaiveBayes.CollectionExtensions
 {
     public static class DictionaryExtensions
     {
