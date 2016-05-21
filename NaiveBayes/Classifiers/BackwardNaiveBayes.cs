@@ -52,7 +52,22 @@ namespace NaiveBayes.Classifiers
 
         public double Accuracy(List<WordPartOfSpeech> testSet)
         {
-            return 0;
+            var predecessorPartOfSpeech = "";
+            int successful = 0;
+
+            foreach (var item in testSet)
+            {
+                var predictedPartOfSpeech = PartOfSpeech(item.Word, predecessorPartOfSpeech);
+               
+                if (predictedPartOfSpeech == item.PartOfSpeech)
+                {
+                    successful++;
+                }
+
+                predecessorPartOfSpeech = predictedPartOfSpeech;
+            }
+           
+            return (double)successful / testSet.Count();
         }
     }
 }
