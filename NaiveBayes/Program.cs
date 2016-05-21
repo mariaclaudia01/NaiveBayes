@@ -7,7 +7,7 @@ namespace NaiveBayes
 {
     class Program
     {
-        private static IPredictor predictor;
+        private static BasicGlobalProbability predictor;
         private static List<WordPartOfSpeech> trainingSet;
         private static List<WordPartOfSpeech> testSet;
 
@@ -43,8 +43,8 @@ namespace NaiveBayes
 
         private static void ComputeAccuracy()
         {
-            var accuracy = new Accuracy(predictor);
+            var accuracy = new BasicGlobalProbabilityAccuracy(predictor);
             Console.WriteLine(accuracy.Compute(testSet));
-        }        
+        }
     }
 }

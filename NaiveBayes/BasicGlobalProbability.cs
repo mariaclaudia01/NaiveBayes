@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace NaiveBayes
 {
-    public class BasicGlobalProbability: IPredictor
+    public class BasicGlobalProbability
     {
         public readonly StatisticsDictionary PartOfSpeechStatistics = new StatisticsDictionary();
 

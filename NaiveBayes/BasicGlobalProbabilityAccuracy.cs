@@ -3,11 +3,11 @@ using System.Linq;
 
 namespace NaiveBayes
 {
-    public class Accuracy
+    public class BasicGlobalProbabilityAccuracy
     {
-        readonly IPredictor predictor;
+        readonly BasicGlobalProbability predictor;
 
-        public Accuracy(IPredictor predictor)
+        public BasicGlobalProbabilityAccuracy(BasicGlobalProbability predictor)
         {
             this.predictor = predictor;
         }

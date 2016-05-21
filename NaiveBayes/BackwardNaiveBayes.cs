@@ -2,7 +2,7 @@
 
 namespace NaiveBayes
 {
-    public class BackwardNaiveBayes: IPredictor
+    public class BackwardNaiveBayes
     {
         public void Train(IEnumerable<WordPartOfSpeech> trainingSet)
         {
