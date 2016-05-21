@@ -12,13 +12,13 @@ namespace NaiveBayes
         
         public void Train(IEnumerable<WordPartOfSpeech> trainingSet)
         {
-            foreach (var trainingSetItem in trainingSet)
+            foreach (var item in trainingSet)
             {
-                CountOccurrence(trainingSetItem);
+                Train(item);
             }
         }
 
-        private void CountOccurrence(WordPartOfSpeech item)
+        private void Train(WordPartOfSpeech item)
         {
             WordStatistics.GetOrCreate(item.Word).GetOrCreate(item.PartOfSpeech);
             WordStatistics[item.Word][item.PartOfSpeech]++;

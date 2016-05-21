@@ -12,10 +12,10 @@ namespace NaiveBayes
         {
             var predecessor = trainingSet.FirstOrDefault();
 
-            foreach (var trainingItem in trainingSet.Skip(1))
+            foreach (var item in trainingSet.Skip(1))
             {
-                Train(trainingItem, predecessor);
-                predecessor = trainingItem;
+                Train(item, predecessor);
+                predecessor = item;
             }
         }
 
@@ -29,12 +29,12 @@ namespace NaiveBayes
             Statistics[current.Word][current.PartOfSpeech][predecessor.PartOfSpeech]++;
         }
 
-        public Dictionary<string, double> Probabilities(string word, string previousPartOfSpeech)
+        public Dictionary<string, double> Probabilities(string word, string predecessorPartOfSpeech)
         {
             return new Dictionary<string, double>();
         }
 
-        public string PredictPartOfSpeech(string word)
+        public string PredictPartOfSpeech(string word, string predecessorPartOfSpeech)
         {
             return "";
         }
