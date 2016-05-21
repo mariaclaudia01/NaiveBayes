@@ -5,11 +5,15 @@ namespace NaiveBayes
 {
     public class BackwardNaiveBayes
     {
+        private readonly BasicGlobalProbability basicGlobalProbability = new BasicGlobalProbability();
+
         public Dictionary<string, Dictionary<string, Dictionary<string, int>>> Statistics = 
             new Dictionary<string, Dictionary<string, Dictionary<string, int>>>();
 
         public void Train(List<WordPartOfSpeech> trainingSet)
         {
+            basicGlobalProbability.Train(trainingSet);
+
             var predecessor = trainingSet.FirstOrDefault();
 
             foreach (var item in trainingSet.Skip(1))
@@ -23,20 +27,26 @@ namespace NaiveBayes
         {
             Statistics
                 .GetOrCreate(current.Word)
-                .GetOrCreate(current.PartOfSpeech)
-                .GetOrCreate(predecessor.PartOfSpeech);
-            
-            Statistics[current.Word][current.PartOfSpeech][predecessor.PartOfSpeech]++;
+                .GetOrCreate(predecessor.PartOfSpeech)
+                .GetOrCreate(current.PartOfSpeech);
+
+            Statistics[current.Word][predecessor.PartOfSpeech][current.PartOfSpeech]++;
         }
 
         public Dictionary<string, double> Probabilities(string word, string predecessorPartOfSpeech)
         {
-            return new Dictionary<string, double>();
+            return Statistics.GetOrCreate(word).GetOrCreate(predecessorPartOfSpeech).Statistics();
         }
 
         public string PredictPartOfSpeech(string word, string predecessorPartOfSpeech)
         {
-            return "";
+            var partOfSpeechProbabilities = Probabilities(word, predecessorPartOfSpeech);
+
+            if (partOfSpeechProbabilities.Any())
+            {
+                return partOfSpeechProbabilities.KeyWithMaxValue();
+            }
+            return basicGlobalProbability.PredictPartOfSpeech(word);
         }
     }
 }
