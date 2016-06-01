@@ -43,8 +43,16 @@ namespace NaiveBayes.IO
                  {'p', "articol"}, 
         };
 
+        readonly List<string> punctuation = new List<string>
+        {
+           "punct","punct.","PERIOD", "."
+        };
+
         string Normalize(string posTag)
         {
+            if (punctuation.Contains(posTag))
+                return "punct";
+
             return map.ContainsKey(posTag[0])
                 ? map[posTag[0]]
                 : "altele";
@@ -52,7 +60,9 @@ namespace NaiveBayes.IO
 
         private bool IsValid(WordPartOfSpeech trainingItem)
         {
-            return Regex.IsMatch(trainingItem.Word, @"^[a-z_]*[a-z]+$");
+            if (trainingItem.Word == ".") return true;
+            if (trainingItem.Word == "_") return false;
+            return Regex.IsMatch(trainingItem.Word, @"^[a-z_]*$");
         }
     }
 }
