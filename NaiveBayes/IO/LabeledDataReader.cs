@@ -38,18 +38,16 @@ namespace NaiveBayes.IO
                  {'t', "adv"},
                  {'q', "articol"},
                  {'c', "articol"},
-            	 {'i', "altele"}, 
-                 {'s', "prepozitie"},
+            	 {'s', "prepozitie"},
                  {'y', "prepozitie"},
-                 {'x', "altele"}, 
                  {'p', "articol"}, 
         };
 
         string Normalize(string posTag)
         {
             return map.ContainsKey(posTag[0])
-                ? map[posTag[0]]:
-                "altele";
+                ? map[posTag[0]]
+                : "altele";
         }
 
         private bool IsValid(WordPartOfSpeech trainingItem)
