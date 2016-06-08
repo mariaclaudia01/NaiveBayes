@@ -6,5 +6,7 @@ namespace NaiveBayes.Classifiers
     {
         void Train(List<WordPartOfSpeech> trainingSet);
         double Accuracy(List<WordPartOfSpeech> testSet);
+        double Precision(string partOfSpeech, List<WordPartOfSpeech> testSet);
+        double Recall(string partOfSpeech, List<WordPartOfSpeech> testSet);        
     }
 }

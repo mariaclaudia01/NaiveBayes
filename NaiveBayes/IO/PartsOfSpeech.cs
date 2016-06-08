@@ -24,6 +24,11 @@ namespace NaiveBayes.IO
             {'p', "articol"}, 
         };
 
+        public static List<string> All()
+        {
+            return Map.Values.Distinct().ToList();
+        }
+
         public static readonly List<string> Punctuation = new List<string>
         {
            "punct","punct.","PERIOD", "."

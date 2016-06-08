@@ -75,5 +75,57 @@ namespace NaiveBayes.Classifiers
            
             return (double)successful / testSet.Count();
         }
+
+        public double Precision(string partOfSpeech, List<WordPartOfSpeech> testSet)
+        {
+            var predecessorPartOfSpeech = "";
+            int truePositive = 0;
+            int falsePositive = 0;
+
+            foreach (var item in testSet)
+            {
+                var predictedPartOfSpeech = PartOfSpeech(item.Word, predecessorPartOfSpeech);
+
+                if (predictedPartOfSpeech == item.PartOfSpeech && predictedPartOfSpeech == partOfSpeech)
+                {
+                    truePositive++;
+                }
+
+                if (predictedPartOfSpeech != item.PartOfSpeech && predictedPartOfSpeech == partOfSpeech)
+                {
+                    falsePositive++;
+                }
+
+                predecessorPartOfSpeech = predictedPartOfSpeech;
+            }
+
+            return (double)truePositive / (truePositive + falsePositive);
+        }
+
+        public double Recall(string partOfSpeech, List<WordPartOfSpeech> testSet)
+        {
+            var predecessorPartOfSpeech = "";
+            int truePositive = 0;
+            int falseNegative = 0;
+
+            foreach (var item in testSet)
+            {
+                var predictedPartOfSpeech = PartOfSpeech(item.Word, predecessorPartOfSpeech);
+
+                if (predictedPartOfSpeech == item.PartOfSpeech && predictedPartOfSpeech == partOfSpeech)
+                {
+                    truePositive++;
+                }
+
+                if (predictedPartOfSpeech != item.PartOfSpeech && predictedPartOfSpeech != partOfSpeech)
+                {
+                    falseNegative++;
+                }
+
+                predecessorPartOfSpeech = predictedPartOfSpeech;
+            }
+
+            return (double)truePositive / (truePositive + falseNegative);
+        }
     }
 }

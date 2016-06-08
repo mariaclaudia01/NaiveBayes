@@ -9,8 +9,8 @@ namespace NaiveBayes.Classifiers
         public readonly Dictionary<string, int> PartOfSpeechStatistics = new Dictionary<string, int>();
 
         public readonly Dictionary<string, Dictionary<string, int>> WordStatistics =
-            new Dictionary<string, Dictionary<string, int>>();           
-        
+            new Dictionary<string, Dictionary<string, int>>();
+
         public void Train(List<WordPartOfSpeech> trainingSet)
         {
             trainingSet.ForEach(Train);
@@ -47,6 +47,52 @@ namespace NaiveBayes.Classifiers
                 .Count(item => PartOfSpeech(item.Word) == item.PartOfSpeech);
 
             return (double)successfulPredictions / testSet.Count;
+        }
+
+        public double Precision(string partOfSpeech, List<WordPartOfSpeech> testSet)
+        {
+            int truePositive = 0;
+            int falsePositive = 0;
+
+            foreach (var item in testSet)
+            {
+                var predictedPartOfSpeech = PartOfSpeech(item.Word);
+
+                if (predictedPartOfSpeech == item.PartOfSpeech && predictedPartOfSpeech == partOfSpeech)
+                {
+                    truePositive++;
+                }
+
+                if (predictedPartOfSpeech != item.PartOfSpeech && predictedPartOfSpeech == partOfSpeech)
+                {
+                    falsePositive++;
+                }
+            }
+
+            return (double)truePositive / (truePositive + falsePositive);
+        }
+
+        public double Recall(string partOfSpeech, List<WordPartOfSpeech> testSet)
+        {
+            int truePositive = 0;
+            int falseNegative = 0;
+
+            foreach (var item in testSet)
+            {
+                var predictedPartOfSpeech = PartOfSpeech(item.Word);
+
+                if (predictedPartOfSpeech == item.PartOfSpeech && predictedPartOfSpeech == partOfSpeech)
+                {
+                    truePositive++;
+                }
+
+                if (predictedPartOfSpeech != item.PartOfSpeech && predictedPartOfSpeech != partOfSpeech)
+                {
+                    falseNegative++;
+                }
+            }
+
+            return (double)truePositive / (truePositive + falseNegative);
         }
     }
 }
