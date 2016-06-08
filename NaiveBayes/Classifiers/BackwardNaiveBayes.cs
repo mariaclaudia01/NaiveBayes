@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NaiveBayes.CollectionExtensions;
+using NaiveBayes.IO;
 
 namespace NaiveBayes.Classifiers
 {
@@ -41,6 +42,11 @@ namespace NaiveBayes.Classifiers
 
         public string PartOfSpeech(string word, string predecessorPartOfSpeech)
         {
+            if (predecessorPartOfSpeech == PartsOfSpeech.EndOfSentence)
+            {
+                return basicGlobalProbability.PartOfSpeech(word);
+            }
+
             var partOfSpeechProbabilities = Probabilities(word, predecessorPartOfSpeech);
 
             if (partOfSpeechProbabilities.Any())
