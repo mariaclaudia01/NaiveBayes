@@ -16,7 +16,7 @@ namespace NaiveBayes.Classifiers
         {
             basicGlobalProbability.Train(trainingSet);
 
-            var reversedTrainingSet = ((IEnumerable<WordPartOfSpeech>)trainingSet).Reverse();
+            var reversedTrainingSet = trainingSet.Backwards();
             var successor = reversedTrainingSet.FirstOrDefault();
 
             foreach (var item in reversedTrainingSet.Skip(1))
@@ -62,8 +62,7 @@ namespace NaiveBayes.Classifiers
             var successorPartOfSpeech = "";
             int successful = 0;
 
-            var reversedTestSet = ((IEnumerable<WordPartOfSpeech>)testSet).Reverse();
-            foreach (var item in reversedTestSet)
+            foreach (var item in testSet.Backwards())
             {
                 var predictedPartOfSpeech = PartOfSpeech(item.Word, successorPartOfSpeech);
 
@@ -84,8 +83,7 @@ namespace NaiveBayes.Classifiers
             int truePositive = 0;
             int falsePositive = 0;
 
-            var reversedTestSet = ((IEnumerable<WordPartOfSpeech>)testSet).Reverse();
-            foreach (var item in reversedTestSet)
+            foreach (var item in testSet.Backwards())
             {
                 var predictedPartOfSpeech = PartOfSpeech(item.Word, successorPartOfSpeech);
 
@@ -111,8 +109,7 @@ namespace NaiveBayes.Classifiers
             int truePositive = 0;
             int falseNegative = 0;
 
-            var reversedTestSet = ((IEnumerable<WordPartOfSpeech>)testSet).Reverse();
-            foreach (var item in reversedTestSet)
+            foreach (var item in testSet.Backwards())
             {
                 var predictedPartOfSpeech = PartOfSpeech(item.Word, successorPartOfSpeech);
 

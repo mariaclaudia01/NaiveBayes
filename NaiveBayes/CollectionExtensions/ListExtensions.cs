@@ -19,5 +19,10 @@ namespace NaiveBayes.CollectionExtensions
         {
             return (int)(sequence.Count() * percentage);
         }
+
+        public static List<T> Backwards<T>(this List<T> data)
+        {
+            return ((IEnumerable<T>)data).Reverse().ToList();
+        }
     }
 }
