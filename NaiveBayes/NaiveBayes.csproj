@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Classifiers\BackwardNaiveBayes.cs" />
     <Compile Include="Classifiers\BasicGlobalProbability.cs" />
+    <Compile Include="Classifiers\ForwardNaiveBayes.cs" />
     <Compile Include="Classifiers\ITrainable.cs" />
     <Compile Include="CollectionExtensions\ListExtensions.cs" />
     <Compile Include="IO\PartsOfSpeech.cs" />

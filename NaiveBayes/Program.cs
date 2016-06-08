@@ -19,6 +19,7 @@ namespace NaiveBayes
 
             Evaluate(new BasicGlobalProbability());
             Evaluate(new BackwardNaiveBayes());
+            Evaluate(new ForwardNaiveBayes());
 
             Console.ReadKey();
         }
