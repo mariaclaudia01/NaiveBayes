@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using NaiveBayes.Classifiers;
 using NaiveBayes.CollectionExtensions;
@@ -37,16 +35,12 @@ namespace NaiveBayes
         private static void Evaluate(ITrainable classifier)
         {
             classifier.Train(trainingSet);
-            Save(classifier);
+
+            var serializer = new JsonSerializer(classifier);
+            serializer.SerializeTo(classifier + ".json");
 
             var benchmark = new Benchmark(classifier, testSet);
             Console.WriteLine(benchmark.Report());
-        }
-
-        private static void Save(ITrainable classifier)
-        {
-            string statistics = JsonConvert.SerializeObject(classifier, Formatting.Indented);
-            File.WriteAllText(classifier + ".json", statistics);
         }
     }
 }
