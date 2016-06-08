@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using NaiveBayes.Classifiers;
 using NaiveBayes.CollectionExtensions;
 using NaiveBayes.IO;
+using NaiveBayes.Reports;
 
 namespace NaiveBayes
 {
@@ -38,42 +39,14 @@ namespace NaiveBayes
             classifier.Train(trainingSet);
             Save(classifier);
 
-            Console.WriteLine(classifier);
-            ComputeAccuracy(classifier);
-            ComputePrecision(classifier);
-            ComputeRecall(classifier);
+            var benchmark = new Benchmark(classifier, testSet);
+            Console.WriteLine(benchmark.Report());
         }
 
         private static void Save(ITrainable classifier)
         {
             string statistics = JsonConvert.SerializeObject(classifier, Formatting.Indented);
             File.WriteAllText(classifier + ".json", statistics);
-        }
-
-        private static void ComputeAccuracy(ITrainable classifier)
-        {
-            double accuracy = classifier.Accuracy(testSet);
-            Console.WriteLine("Accuracy: " + accuracy);
-        }
-
-        private static void ComputePrecision(ITrainable classifier)
-        {
-            Console.WriteLine("Precision:");
-            foreach (var partOfSpeech in PartsOfSpeech.All())
-            {
-                double precision = classifier.Precision(partOfSpeech, testSet);
-                Console.WriteLine(partOfSpeech + ": " + precision);
-            }
-        }
-
-        private static void ComputeRecall(ITrainable classifier)
-        {
-            Console.WriteLine("Recall:");
-            foreach (var partOfSpeech in PartsOfSpeech.All())
-            {
-                double recall = classifier.Recall(partOfSpeech, testSet);
-                Console.WriteLine(partOfSpeech + ": " + recall);
-            }
         }
     }
 }

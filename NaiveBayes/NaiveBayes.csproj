@@ -56,6 +56,7 @@
     <Compile Include="IO\LabeledDataReader.cs" />
     <Compile Include="CollectionExtensions\DictionaryExtensions.cs" />
     <Compile Include="Classifiers\WordPartOfSpeech.cs" />
+    <Compile Include="Reports\Benchmark.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
