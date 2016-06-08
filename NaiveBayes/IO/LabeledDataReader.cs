@@ -25,37 +25,16 @@ namespace NaiveBayes.IO
                 Word = wordXmlTag.Attribute("lemma").Value.ToLower(),
                 PartOfSpeech = Normalize(wordXmlTag.Attribute("postag").Value.ToLower())
             };
-        }
-
-        readonly Dictionary<char, string> map = new Dictionary<char, string>
-        {
-            	 {'n', "subst"},
-                 {'m', "subst"},
-                 {'d', "subst"},
-                 {'v', "verb"},
-                 {'a', "adj"},
-                 {'r', "adv"},
-                 {'t', "adv"},
-                 {'q', "articol"},
-                 {'c', "articol"},
-            	 {'s', "prepozitie"},
-                 {'y', "prepozitie"},
-                 {'p', "articol"}, 
-        };
-
-        readonly List<string> punctuation = new List<string>
-        {
-           "punct","punct.","PERIOD", "."
-        };
-
+        }          
+              
         string Normalize(string posTag)
         {
-            if (punctuation.Contains(posTag))
-                return "punct";
+            if (PartsOfSpeech.Punctuation.Contains(posTag))
+                return PartsOfSpeech.EndOfSentence;
 
-            return map.ContainsKey(posTag[0])
-                ? map[posTag[0]]
-                : "altele";
+            return PartsOfSpeech.Map.ContainsKey(posTag[0])
+                ? PartsOfSpeech.Map[posTag[0]]
+                : PartsOfSpeech.Unknown;
         }
 
         private bool IsValid(WordPartOfSpeech trainingItem)
