@@ -2,7 +2,6 @@
 using System.Linq;
 using NaiveBayes.CollectionExtensions;
 using NaiveBayes.IO;
-using System.Collections;
 
 namespace NaiveBayes.Classifiers
 {
