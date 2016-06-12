@@ -23,7 +23,9 @@ namespace NaiveBayes.IO
 
         public static List<string> All()
         {
-            return Map.Values.Distinct().ToList();
+            var partsOfSpeech = Map.Values.Distinct().ToList();
+            partsOfSpeech.Add(Unknown);
+            return partsOfSpeech;
         }
 
         public static readonly List<string> Punctuation = new List<string>
